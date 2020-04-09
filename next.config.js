@@ -1,5 +1,3 @@
-// next.config.js
 const withSass = require("@zeit/next-sass");
-module.exports = withSass({
-  /* config options here */
-});
+const withCss = require("@zeit/next-css");
+module.exports = withCss(withSass());
