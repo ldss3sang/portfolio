@@ -1,9 +1,31 @@
 // import App from 'next/app'
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/main.scss";
+import { Auth0Provider } from "../services/react-auth0-spa";
+import config from "../auth_config.json";
+import Router from "next/router";
+
+// A function that routes the user to the right place
+// after login
+const onRedirectCallback = (appState) => {
+  Router.push(
+    appState && appState.targetUrl
+      ? appState.targetUrl
+      : window.location.pathname
+  );
+};
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+  return (
+    <Auth0Provider
+      domain={config.domain}
+      client_id={config.clientId}
+      redirect_uri={"http://localhost:3000/callback"}
+      onRedirectCallback={onRedirectCallback}
+    >
+      <Component {...pageProps} />
+    </Auth0Provider>
+  );
 }
 
 // Only uncomment this method if you have blocking data requirements for
