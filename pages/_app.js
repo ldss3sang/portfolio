@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps }) {
     <Auth0Provider
       domain={config.domain}
       client_id={config.clientId}
-      redirect_uri={"https://portfolio-f7zifor8b.now.sh/callback"}
+      redirect_uri={"https://portfolio-kappa-gilt.now.sh/callback"}
       onRedirectCallback={onRedirectCallback}
     >
       <Component {...pageProps} />
