@@ -30,7 +30,11 @@ const Header = (props) => {
   const toggle = () => setIsOpen(!isOpen);
 
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
-  console.log(isAuthenticated);
+  const isAuth = isAuthenticated
+    ? isAuthenticated
+    : props.isAuthenticated === "true"
+    ? true
+    : false;
 
   return (
     <div>
@@ -52,7 +56,7 @@ const Header = (props) => {
             <BsNavItem link="/blogs" title="Blog" />
             <BsNavItem link="/resume" title="Resume" />
             <NavItem className="port-navbar-item">
-              {!isAuthenticated && (
+              {!isAuth && (
                 <span
                   className="nav-link port-navbar-link clickable"
                   onClick={() => loginWithRedirect({})}
@@ -62,7 +66,7 @@ const Header = (props) => {
               )}
             </NavItem>
             <NavItem className="port-navbar-item">
-              {isAuthenticated && (
+              {isAuth && (
                 <span
                   className="nav-link port-navbar-link clickable"
                   onClick={() => logout()}

@@ -19,8 +19,9 @@ class Index extends React.Component {
   }
 
   render() {
+    const { isAuthenticated } = this.props;
     return (
-      <BaseLayout className="cover">
+      <BaseLayout isAuthenticated={isAuthenticated} className="cover">
         <div className="main-section">
           <div className="background-image">
             <img src="/static/images/background.png" />

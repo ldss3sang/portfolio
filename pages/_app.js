@@ -4,6 +4,7 @@ import "../styles/main.scss";
 import { Auth0Provider } from "../services/react-auth0-spa";
 import config from "../auth_config.json";
 import Router from "next/router";
+import App from "next/app";
 
 // A function that routes the user to the right place
 // after login
@@ -20,7 +21,7 @@ function MyApp({ Component, pageProps }) {
     <Auth0Provider
       domain={config.domain}
       client_id={config.clientId}
-      redirect_uri={"https://portfolio-kappa-gilt.now.sh/callback"}
+      redirect_uri={"http://localhost:3000/callback"}
       onRedirectCallback={onRedirectCallback}
     >
       <Component {...pageProps} />
@@ -33,11 +34,13 @@ function MyApp({ Component, pageProps }) {
 // perform automatic static optimization, causing every page in your app to
 // be server-side rendered.
 //
-// MyApp.getInitialProps = async (appContext) => {
-//   // calls page's `getInitialProps` and fills `appProps.pageProps`
-//   const appProps = await App.getInitialProps(appContext);
-//
-//   return { ...appProps }
-// }
+MyApp.getInitialProps = async (appContext) => {
+  // calls page's `getInitialProps` and fills `appProps.pageProps`
+  const appProps = await App.getInitialProps(appContext);
+  appProps.pageProps[
+    "isAuthenticated"
+  ] = appContext.ctx.req?.headers?.cookie?.split("=")[1];
+  return { ...appProps };
+};
 
 export default MyApp;
