@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }) {
     <Auth0Provider
       domain={config.domain}
       client_id={config.clientId}
-      redirect_uri={"https://portfolio-kappa-gilt.now.sh/callback"}
+      redirect_uri={"https://portfolio.ldss3sang1.now.sh/callback"}
       onRedirectCallback={onRedirectCallback}
     >
       <Component {...pageProps} />
@@ -37,9 +37,22 @@ function MyApp({ Component, pageProps }) {
 MyApp.getInitialProps = async (appContext) => {
   // calls page's `getInitialProps` and fills `appProps.pageProps`
   const appProps = await App.getInitialProps(appContext);
-  appProps.pageProps[
-    "isAuthenticated"
-  ] = appContext.ctx.req?.headers?.cookie?.split("=")[1];
+
+  let authenticatedCookie = undefined;
+  if (
+    appContext.ctx.req &&
+    appContext.ctx.req.headers &&
+    appContext.ctx.req.headers.cookie
+  ) {
+    authenticatedCookie = appContext.ctx.req.headers.cookie
+      .split(";")
+      .find((c) => c.trim().startsWith("auth0.is.authenticated"));
+  }
+
+  appProps.pageProps["isAuthenticated"] = authenticatedCookie
+    ? authenticatedCookie.split("=")[1]
+    : undefined;
+  console.log(appProps);
   return { ...appProps };
 };
 
