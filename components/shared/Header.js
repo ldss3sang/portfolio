@@ -29,13 +29,13 @@ const Header = (props) => {
 
   const toggle = () => setIsOpen(!isOpen);
 
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
   const isAuth = isAuthenticated
     ? isAuthenticated
     : props.isAuthenticated === "true"
     ? true
     : false;
-
+  console.log(user);
   return (
     <div>
       <Navbar
